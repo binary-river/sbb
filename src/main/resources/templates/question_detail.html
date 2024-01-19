@@ -1,15 +1,17 @@
 
-<table>
-	<tr>
-		<td>Subejct</td>
-		<td th:text="${question.subject}"></td>
-	</tr>
-	<tr>
-		<td>Content</td>
-		<td th:text="${question.content}"></td>		
-	</tr>
-	<tr>
-		<td>create date</td>
-		<td th:text="${question.createDate}"></td>		
-	</tr>
-</table>
+<h2 th:text="${question.subject}"> </h2>
+<div th:text="${question.createDate}"></div>
+<br>
+<div th:text="${question.content}"></div>
+<br>
+<h5 th:text="|${#lists.size(question.answerList)} comment(s) on here|"></h5>
+<div>
+	<ul>
+		<li th:each="answer: ${question.answerList}" th:text="${answer.content}"></li>
+	</ul>
+</div>
+
+<form th:action="@{|/answer/create/${question.id}|}" method="post">
+	<textarea name="content" id="content" rows="2"></textarea>
+	<input type="submit" value="summit"/>
+</form>
