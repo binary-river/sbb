@@ -9,7 +9,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr th:each="question, loop : ${questionList}">
+		<tr th:each="question, loop : ${paging}">
 			<td th:text="${loop.count}"></td>
 			<td>
 				<a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}">
@@ -21,5 +21,6 @@
 	</tbody>
 </table>
 <a th:href="@{/question/create}" class="btn btn-primary">Post Question</a>
+<!-- https://wikidocs.net/162028 -->
 </div>
 </html>

@@ -17,6 +17,7 @@ import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerRepository;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
+import com.mysite.sbb.question.QuestionService;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -26,15 +27,26 @@ class SbbApplicationTests {
 	
 	@Autowired
 	private AnswerRepository answerRepository;
+	
+	@Autowired
+	private QuestionService questionService;
 
 	@Test
 	void contextLoads() {
 	}
 
-	@Transactional
+//	@Transactional
 	@Test
 	void testJpa() {
 		
+		for (int i = 0; i < 300; i++) {
+			String subject = String.format("Test Question # %d", i);
+			System.out.println("subject : " + subject);
+			String content = "Empty content is not an empty content";
+			this.questionService.create(subject, content);
+		}
+		
+		/*
 		Optional<Question> oq = this.questionRepository.findById(2);
 		assertTrue(oq.isPresent());
 		
@@ -42,6 +54,7 @@ class SbbApplicationTests {
 		for(Answer a:answerList) {
 			System.out.println( a.getId()+ ", "+ a.getContent());
 		}
+		*/
 		
 		/*
 		Optional<Question> oq = this.questionRepository.findById(2);
