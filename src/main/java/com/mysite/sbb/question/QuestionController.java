@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysite.sbb.answer.AnswerForm;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +34,10 @@ public class QuestionController {
 	}
 	
 	@GetMapping("/detail/{id}")
-	public String detail(Model model, @PathVariable("id") Integer i) {
+	public String detail(Model model,
+			@PathVariable("id") Integer i,
+			AnswerForm answerForm
+			) {
 		
 		Question q = this.questionService.getQuestion(i);
 		model.addAttribute("question", q);

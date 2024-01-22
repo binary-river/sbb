@@ -1,9 +1,7 @@
 <html layout:decorate="~{layout}">
 <div class="container my-3" layout:fragment="content">
 	<form th:action="@{/question/create}" method="post" th:object="${questionForm}">
-	    <div class="alert alert-danger" role="alert"  th:if="${#fields.hasAnyErrors()}">
-	    	 <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-	    </div>
+		<div th:replace="~{form_errors :: formErrorFragment}"></div>
 		<h5 class="border-bottom py-3">Post Question</h5>
 		<div class="mb-3">
 			<label for="subject" class="form-label">Subject</label>
