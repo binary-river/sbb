@@ -1,0 +1,27 @@
+
+<html layout:decorate="~{layout}">
+<div class="container my-3" layout:fragment="content">
+	<div class="my-3 border-bottom">
+		<h4>Sign up</h4>
+	</div>
+	<form th:action="@{/user/signup}" method="post" th:object="${userCreateForm}">
+		<div th:replace="~{form_errors :: formErrorFragment}"></div>
+		<div class="mb-3">
+			<label for="username" class="form-label">User name</label>
+			<input type="text" th:field="*{username}" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label for="password1" class="form-label">Password</label>
+			<input type="password" th:field="*{password1}" class="form-control"/>
+			
+			<label for="password2" class="form-label mt-2">Confirm password</label>
+			<input type="password" th:field="*{password2}" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label for="email" class="form-label">Email</label>
+			<input type="email" th:field="*{email}" class="form-control"/>
+		</div>
+		<button type="submit" class="btn btn-primary">Sign up</button>
+	</form>
+</div>
+</html>
