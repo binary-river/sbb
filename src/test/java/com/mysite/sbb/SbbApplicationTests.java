@@ -43,7 +43,7 @@ class SbbApplicationTests {
 			String subject = String.format("Test Question # %d", i);
 			System.out.println("subject : " + subject);
 			String content = "Empty content is not an empty content";
-			this.questionService.create(subject, content);
+			this.questionService.create(subject, content, null);
 		}
 		
 		/*
