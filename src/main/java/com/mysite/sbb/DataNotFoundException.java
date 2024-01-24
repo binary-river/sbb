@@ -12,4 +12,6 @@ public class DataNotFoundException extends RuntimeException{
 		super(message);
 	}
 	
+	// https://wikidocs.net/162413
+	
 }
