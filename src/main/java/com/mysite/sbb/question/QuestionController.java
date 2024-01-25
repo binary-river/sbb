@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.mysite.sbb.answer.AnswerForm;
 import com.mysite.sbb.user.SiteUser;
@@ -50,6 +52,52 @@ public class QuestionController {
 		model.addAttribute("question", q);
 		return "question_detail";
 	}
+	
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify/{id}")
+	public String modify(QuestionForm questionForm,
+			@PathVariable("id") Integer id,
+			Principal principal
+			) {
+		
+		//TODO
+		Question q = questionService.getQuestion(id);
+		if( ! principal.getName().equals(q.getAuthor().getUsername())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Permission denied");
+		}
+		
+		questionForm.setContent(q.getContent());
+		questionForm.setSubject(q.getSubject());
+		
+		return "question_form";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/modify/{id}")
+	public String modify( @PathVariable("id") Integer id,
+			@Valid QuestionForm questionForm,
+			BindingResult bindingResult,
+			Principal principal
+			) {
+		
+		Question q = questionService.getQuestion(id);
+		
+		if(bindingResult.hasErrors()) {
+			return "question_form";
+		}
+		
+		if( ! q.getAuthor().getUsername().equals(principal.getName()) ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unauthorized");
+		}
+		
+		questionService.modify(q, questionForm.getSubject(), questionForm.getContent());
+		
+		return String.format("redirect:/question/detail/%s", id);
+	}
+	
+	//https://wikidocs.net/162413 질문 컨트롤러 수정하기 2
+	
 	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")

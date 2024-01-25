@@ -13,7 +13,15 @@
 					<div th:text="${#temporals.format(question.createDate,'yyyy-MM-dd hh:mm')}"></div>
 				</div>
 			</div>
+			
+			<div class="my-3">
+				<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+					  sec:authorize="isAuthenticated()" th:text="Modify"
+					  th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"></a>
+			</div>
+			
 		</div>
+
 	</div>
 	<h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answerList)} comment(s) on here|"></h5>
 	
