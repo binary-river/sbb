@@ -118,4 +118,21 @@ public class QuestionController {
 		questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
 		return "redirect:/question/list";
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable("id") Integer id,
+						Principal principal
+			) {
+		
+		Question q  = questionService.getQuestion(id);
+		
+		if(! q.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unauthorized user");
+		}
+		
+		questionService.delete(q);
+		
+		return "redirect:/";
+	}
 }
