@@ -44,6 +44,7 @@
 	<h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answerList)} comment(s) on here|"></h5>
 	
 	<div class="card my-3" th:each="answer : ${question.answerList}">
+		<a th:id="|answer_${answer.id}|"></a>
 		<div class="card-body">
 			<div class="card-text" style="white-space: pre-line;" th:text="${answer.content}">
 			</div>

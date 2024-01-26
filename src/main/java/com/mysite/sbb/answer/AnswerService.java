@@ -19,14 +19,14 @@ public class AnswerService {
 	
 	private final AnswerRepository answerRepository;
 	
-	public void create(Question q, String content, SiteUser siteUser) {
+	public Answer create(Question q, String content, SiteUser siteUser) {
 		Answer a = new Answer();
 		a.setContent(content);
 		a.setQuestion(q);
 		a.setCreateDate(LocalDateTime.now());
 		a.setAuthor(siteUser);
 		
-		answerRepository.save(a);
+		return answerRepository.save(a);
 	}
 	
 	public Answer getAnswer(Integer id) {
@@ -38,11 +38,11 @@ public class AnswerService {
 		}
 	}
 	
-	public void modify(Answer answer, String content) {
+	public Answer modify(Answer answer, String content) {
 		Answer a = getAnswer(answer.getId());
 		a.setContent(content);
 		a.setModifyDate(LocalDateTime.now());
-		this.answerRepository.save(a);
+		return this.answerRepository.save(a);
 	}
 	
 	public void delete(Answer answer) {
@@ -50,9 +50,9 @@ public class AnswerService {
 	}
 		
 	
-	public void recommend(Answer answer, SiteUser siteUser) {
+	public Answer recommend(Answer answer, SiteUser siteUser) {
 		answer.getVoter().add(siteUser);
-		answerRepository.save(answer);
+		return answerRepository.save(answer);
 	}
 
 }
