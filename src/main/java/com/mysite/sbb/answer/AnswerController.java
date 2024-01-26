@@ -115,4 +115,20 @@ public class AnswerController {
 		
 		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
 	}
+	
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String recommend(
+			@PathVariable("id") Integer id,
+			Principal principal
+			) {
+		
+		Answer a = answerService.getAnswer(id);
+		SiteUser u = userService.getUser(principal.getName());
+		
+		answerService.recommend(a, u);
+		
+		return String.format("redirect:/question/detail/%s", a.getQuestion().getId());
+	}
 }

@@ -21,6 +21,13 @@
 			</div>
 			
 			<div class="my-3">
+				
+				<a href="javascript:void(0)" th:data-uri="@{|/question/vote/${question.id}|}" 
+					class="recommend btn btn-sm btn-outline-secondary">
+					Up
+					<span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+					</a>
+				
 				<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
 					  sec:authorize="isAuthenticated()" th:text="Modify"
 					  th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"></a>
@@ -55,6 +62,11 @@
 				</div>
 			</div>
 			<div class="my-3">
+				<a href="javascript:void(0)" class="recommend btn btn-sm btn-outline-secondary" th:data-uri="@{|/answer/vote/${answer.id}|}"
+				>Up
+				 <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+				</a>
+				
 				<a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
 					sec:authorize="isAuthenticated()"
 					th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username }"
@@ -79,10 +91,19 @@
 
 <script layout:fragment="script" type="text/javascript">
 	const delete_elements = document.getElementsByClassName("delete");
+	const recommend_elements = document.getElementsByClassName("recommend");
 	
 	Array.from(delete_elements).forEach(function(element) {
 		element.addEventListener('click', function(){
 			if(confirm("wanna delete?")) {
+				location.href=this.dataset.uri;
+			}
+		})
+	})
+	
+	Array.from(recommend_elements).forEach(function(element){
+		element.addEventListener("click", function() {
+			if(confirm("thumbs up?")) {
 				location.href=this.dataset.uri;
 			}
 		})
